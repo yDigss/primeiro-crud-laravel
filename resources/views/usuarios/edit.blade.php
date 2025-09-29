@@ -1,48 +1,51 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Editar Usuário</title>
-</head>
-<body>
-    <h1>Editar Usuário</h1>
+@extends('layouts.app')
 
-    @if ($errors->any())
-        <div>
-            <strong>Ops!</strong> Algo deu errado.
+@section('title', 'Editar Usuário')
 
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
+@section('content')
+
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <h1>Editar Usuário</h1>
+            <hr>
+
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <strong>Ops!</strong> Por favor, corrija os erros abaixo:
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
+            <form action="{{ route('usuarios.update', $usuario->id) }}" method="POST">
+            @method('PUT')
+            @csrf
+
+                <div class="mb-3">
+                    <label for="name" class="form-label">Nome:</label>
+                    <input type="text" class="form-control" name="name" id="name" value="{{ old('name', $usuario->name) }}" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email:</label>
+                    <input type="email" class="form-control" name="email" id="email" value="{{ old('email', $usuario->email) }}" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="password" class="form-label">Senha:</label>
+                    <input type="password" class="form-control" name="password" id="password">
+                    <div id="passwordHelp" class="form-text">Deixe em branco para nao alterar.</div>
+                </div>
+
+                <div class="mt-4">
+                    <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+                    <a href="{{ route('usuarios.index')}}" class="btn btn-secondary">Cancelar</a>
+                </div>
+                </form>
+
         </div>
-    @endif
 
-    <form action="{{ route('usuarios.update', $usuario->id) }}" method="POST">
-        @csrf
-        @method('PUT')
-
-        <div>
-            <label for="name">Nome:</label>
-            <input type="text" name="name" id="name" value="{{ old('name', $usuario->name) }}" required>
-        </div>
-
-        <div>
-            <label for="email">Email:</label>
-            <input type="email" name="email" id="email" value="{{ old('email', $usuario->email) }}" required>
-        </div>
-
-        <div>
-            <label for="password">Nova Senha:</label>
-            <input type="password" name="password" id="password">
-            <small>Deixe em branco para não alterar a senha.</small>
-        </div>
-
-        <div>
-            <button type="submit">Salvar Alterações</button>
-        </div>
-    </form>
-</body>
-</html>
+    </div>

@@ -1,23 +1,20 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lista de Usuários - Laravel</title>
-</head>
-<body>
+@extends('layouts.app')
+
+@section('title', 'Lista de Usuários')
+
+@section('content')
+
     <h1>Lista de Usuários</h1>
 
     @if (session('success'))
-        <div style="color:green;">
+        <div class="alert alert-success">
             {{ session('success') }}
         </div>
     @endif
 
-    <a href="{{ route('usuarios.create') }}">Criar Novo Usuário</a>
-    <hr>
+    <a href="{{ route('usuarios.create') }}" class="btn btn-primary mb-3">Criar Novo Usuário</a>
 
-    <table border="1" width="100%">
+    <table class="table table-striped">
         <thead>
             <tr>
                 <th>ID</th>
@@ -33,21 +30,19 @@
                     <td>{{ $usuario->name }}</td>
                     <td>{{ $usuario->email }}</td>
                     <td>
-                        <a href="{{ route('usuarios.edit', $usuario->id) }}">Editar</a>
-
-                        <form action="{{ route('usuarios.destroy', $usuario->id) }}" method="POST" style="display: inline;">
+                        <a href="{{ route('usuarios.edit', $usuario->id) }}" class="btn btn-sm btn-warning">Editar</a>
+                        <form action="{{ route('usuarios.destroy', $usuario->id) }}" method="POST" style="display:inline;">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" onclick="return confirm('Tem certeza que deseja excluir este usuário?')">Excluir</button>
+                            <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Tem certeza?')">Excluir</button>
                         </form>
                     </td>
                 </tr>
             @empty
                 <tr>
-                    <td colspan="4">Nenhum usuário cadastrado.</td>
+                    <td colspan="4">Nenhum usuário cadastrado. </td>
                 </tr>
             @endforelse
         </tbody>
     </table>
-</body>
-</html>
+@endsection
